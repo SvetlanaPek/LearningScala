@@ -67,5 +67,89 @@ for (c <- s) yield toLower(c)
 "hello".getBytes // Array[Byte]
 "hello".map(_.toByte) // scala.collection.immutable.IndexedSeq[Byte]
 
+// Regexp
+
+val numPattern = "[0-9]+".r
+// or
+import scala.util.matching.Regex
+val numPattern = new Regex("[0-9]+")
+
+val address = "18 Main Street 1"
+
+val match1 = numPattern.findFirstIn(address)
+val matches = numPattern.findAllIn(address) // return an iterator
+matches.foreach(println)
+
+val matches = numPattern.findAllIn(address).toArray // return an array (toList, toSeq, toVector)
+
+val match_first = numPattern.findFirstIn(address2).getOrElse("no match") // match_first: String = no match
+
+numPattern.findAllIn(address).foreach { e =>
+	println(e*2)
+}
+
+match1 match {
+     case Some(s) => println(s"Found: ${s}") // or just s"Found: $s"
+     case None =>
+     }
+
+
+val addr = "188 wall street 12".replaceAll("[0-9]+", "x")
+//addr: String = x wall street x
+
+val addr = "188 wall street 12".replaceAll("[0-9]", "x")
+//addr: String = xxx wall street xx
+
+val addr = "188 wall street 12".replaceFirst("[0-9]", "x")
+//addr: String = x88 wall street 12
+
+val addr = "188 wall street 12".replaceFirst("[0-9]+", "x")
+//addr: String = x wall street 12
+
+
+val replaced = myregex.replaceAllIn("456 street 2333", "Y")
+//replaced: String = YYY street YYYY
+
+val replaced = myregex.replaceFirstIn("456 street 2333", "Y")
+//replaced: String = Y56 street 2333
+
+
+val pattern = "([0-9]+) ([A-Za-z]+)".r
+//pattern: scala.util.matching.Regex = ([0-9]+) ([A-Za-z]+)
+
+val pattern(count, fruit) = "100 bananas"
+//count: String = 100
+//fruit: String = bananas
+
+//the same
+"hello".charAt(1)
+"hello"(1)
+"hello".apply(1)
+
+// See more details and the proper way to do it on pp. 25-26
+//Adding your own methods to the String Class
+implicit class StringImprovements(val s: String) {
+	def increment: String = s.map(c => (c+1).toChar)
+	def decrement: String = s.map(c => (c-1).toChar)
+	def hideAll: String = s.replaceAll(".", "*")
+	def plusOne: Int = s.toInt + 1
+	def asBoolean: Boolean = s match {
+		case "0" | "zero" | "" | " " => false
+		case _ => true
+	}
+}
+// defined class StringImprovements
+
+"HAL".increment
+// res96: String = IBM
+"0".decrement
+"0".asBoolean
+
+
+
+
+
+
+
 
 
