@@ -73,3 +73,75 @@ two_darray(1)(1) = 3
 
 
 
+// ________________________________
+import util.control.Breaks._
+
+val searchMe = "peter piper picked a peck of pickled peppers"
+var numPs = 0
+
+for (i <- 0 until searchMe.length) {
+	breakable {
+		if (searchMe.charAt(i) != 'p') {
+			break 
+		} else {
+			numPs += 1
+		}
+	}
+}
+
+println("Found " + numPs + " p's in the string.")
+// ________________________________
+
+// To implement a brek
+breakable {
+	for (x <- xs) {
+		if (cond)
+			break
+	}
+}
+
+// To implement a continue
+for (x <- xs) {
+	breakable {
+		if (cond)
+			break
+	}
+}
+
+
+var cmd = "stop"
+def multiMatch(cmd: Any) = cmd match {
+	case "start" | "run" | "go" => println("starting")
+	case "stop" | "quit" | "exit" => println("stopping")
+	case _ => println("doing nothing")
+}
+
+multiMatch(cmd)
+multiMatch("run")
+
+
+// Will return the first match
+def multiMatch2(cmd: Any): String = cmd match {
+	case "start" | "run" | "go" => "starting"
+	case "stop" | "quit" | "exit" => "stopping"
+	case (a, b) => s"got a tuple of $a and $b"
+	case s: String => s"This is a string $s" 
+	case _ => "doing nothing"
+}
+
+val lst1 = List(1,2,3,4)
+val lst2 = 1 :: 2 :: Nil 
+
+
+def multiply(list: List[Int]): Int = list match {
+	case Nil => 1
+	case n :: rest => n * multiply(rest)
+}
+
+
+val s = "Foo"
+try {
+	val i = s.toInt
+} catch {
+	case e: Exception => e.printStackTrace
+}
